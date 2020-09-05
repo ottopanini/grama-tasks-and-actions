@@ -1,14 +1,24 @@
-plugins {
-    id 'java'
+logger.info ">>> build.gradle"
+
+task hi
+
+project.hi.doLast {
+    logger.info "Hi"
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+task hello {
+    description = "Log the name of the task"
+    group = "Welcome"
 
-repositories {
-    mavenCentral()
+    doLast {
+        logger.info "My name is: $name"
+    }
+
+    doFirst {
+        logger.info "My name is: $name"
+    }
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}
+logger.info hello.description
+logger.info hello.group
+
