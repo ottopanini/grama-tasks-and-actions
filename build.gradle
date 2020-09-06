@@ -20,7 +20,7 @@ task doSomethinginTheMiddle {
 
 task doFinished (dependsOn: 'doSomethinginTheMiddle') {
     doLast {
-        logger.info "$name - Done - OK!"
+        logger.info "$name - Done - OK! with version=$version"
     }
 }
 
@@ -28,4 +28,20 @@ logger.info ">>> ${project.tasks.findAll {task -> task.name.startsWith('doStep2'
 
 if (Math.random() < 0.5) {
     doSomethinginTheMiddle.dependsOn doStartProcess, tasks.findAll {task -> task.name.startsWith('doStep2')}
+}
+
+project.gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(doStep2)) {
+        project.version = '1.0'
+    } else {
+        project.version = '1.0-SNAPSHOT'
+    }
+}
+
+project.gradle.taskGraph.beforeTask { task ->
+    logger.info "+++ Before task $task.name"
+}
+
+project.gradle.taskGraph.afterTask { task ->
+    logger.info "+++ After task $task.name"
 }
