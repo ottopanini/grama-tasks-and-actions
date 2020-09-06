@@ -12,13 +12,13 @@ task doStep2 {
     }
 }
 
-task doSomethinginTheMiddle {
+task doSomethinginTheMiddle (dependsOn: ['doStartProcess', 'doStep2']) {
      doLast {
          logger.info "$name - Performed the middle step - OK!"
      }
- }
+}
 
-task doFinished (dependsOn: 'doSomethinginTheMiddle') {
+task doFinished (dependsOn: ['doSomethinginTheMiddle', 'doStep2']) {
     doLast {
         logger.info "$name - Done - OK!"
     }
