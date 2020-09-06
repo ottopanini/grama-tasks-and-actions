@@ -1,3 +1,5 @@
+defaultTasks 'hello', 'hi'
+
 logger.info ">>> build.gradle"
 
 task hi
@@ -11,14 +13,35 @@ task hello {
     group = "Welcome"
 
     doLast {
-        logger.info "My name is: $name"
+        logger.info ">> 2nd action: my name is: $name"
     }
 
     doFirst {
-        logger.info "My name is: $name"
+        logger.info ">> 1st action: my name is: $name"
     }
+}
+
+hello.doLast {
+    logger.info ">> 4th action: my name is $name"
+}
+
+hello.doLast {
+    logger.info ">> 3rd action: my name is $name"
+}
+
+hello.doFirst {
+    logger.info ">> 5th action: my name is $name"
 }
 
 logger.info hello.description
 logger.info hello.group
 
+task hello2 {
+    description = "Log the name of the task"
+    group = "Welcome"
+}
+hello2.doFirst {
+    logger.info ">> 1st action: my name is $name"
+}.doLast {
+    logger.info ">> 2nd action: my name is $name"
+}
