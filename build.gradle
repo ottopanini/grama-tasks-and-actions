@@ -1,47 +1,25 @@
-defaultTasks 'hello', 'hi'
+logger.info ">>> build.gradle --> configuration phase @ ${gradle.timestamp()}"
 
-logger.info ">>> build.gradle"
-
-task hi
-
-project.hi.doLast {
-    logger.info "Hi"
-}
-
-task hello {
-    description = "Log the name of the task"
-    group = "Welcome"
-
+task doStartProcess {
     doLast {
-        logger.info ">> 2nd action: my name is: $name"
-    }
-
-    doFirst {
-        logger.info ">> 1st action: my name is: $name"
+        logger.info "$name - Now starting the process - OK!"
     }
 }
 
-hello.doLast {
-    logger.info ">> 4th action: my name is $name"
+task doStep2 {
+    doLast {
+        logger.info "$name - Performed OK!"
+    }
 }
 
-hello.doLast {
-    logger.info ">> 3rd action: my name is $name"
-}
+task doSomethinginTheMiddle {
+     doLast {
+         logger.info "$name - Performed the middle step - OK!"
+     }
+ }
 
-hello.doFirst {
-    logger.info ">> 5th action: my name is $name"
-}
-
-logger.info hello.description
-logger.info hello.group
-
-task hello2 {
-    description = "Log the name of the task"
-    group = "Welcome"
-}
-hello2.doFirst {
-    logger.info ">> 1st action: my name is $name"
-}.doLast {
-    logger.info ">> 2nd action: my name is $name"
+task doFinished (dependsOn: 'doSomethinginTheMiddle') {
+    doLast {
+        logger.info "$name - Done - OK!"
+    }
 }
